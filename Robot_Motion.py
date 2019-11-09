@@ -41,7 +41,7 @@ ExecutionDuration = 0.5
 #--------------------
 
 #--------------------
-# Turn off motor one.
+# Send a beep to the speaker.
 def Beep():
   GPIO.output(16, GPIO.HIGH)
   time.sleep(.2)
