@@ -4,7 +4,7 @@
 # Written by Daniel Grimes & Justin Grimes.
 # Licensed Under GNU GPLv3
 # November 9th, 2019
-# Version v1.0
+# Version v1.1
 
 #--------------------
 # Inport the Raspberry Pi GPIO Library.
@@ -35,6 +35,17 @@ ExecutionDuration = 0.5
   GPIO.setup(20, GPIO.OUT)
   # Black, M2B
   GPIO.setup(21, GPIO.OUT)
+ # Speaker
+  # Red, Positive
+  GPIO.setup(16, GPIO.OUT)
+#--------------------
+
+#--------------------
+# Turn off motor one.
+def Beep():
+  GPIO.output(16, GPIO.HIGH)
+  time.sleep(.2)
+  GPIO.output(16, GPIO.LOW)
 #--------------------
 
 #--------------------
@@ -128,6 +139,8 @@ while KeyPress != 'q':
   time.sleep(ExecutionDuration)
   
   StopAllMotors()
+  
+  Beep()
 
 PrintGoodbyeText()
 #--------------------
