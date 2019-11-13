@@ -25,19 +25,19 @@ ExecutionDuration = 0.5
 
 #--------------------
 # Set the mode for output GPIO pins used.
- # Motor 1
-  # Red, M1A
-  GPIO.setup(26, GPIO.OUT)
-  # Orange, M1B
-  GPIO.setup(19, GPIO.OUT)
- # Motor2
-  # Brown, M2A
-  GPIO.setup(20, GPIO.OUT)
-  # Black, M2B
-  GPIO.setup(21, GPIO.OUT)
- # Speaker
-  # Red, Positive
-  GPIO.setup(16, GPIO.OUT)
+# Motor 1
+# Red, M1A
+GPIO.setup(26, GPIO.OUT)
+# Orange, M1B
+GPIO.setup(19, GPIO.OUT)
+# Motor2
+# Brown, M2A
+GPIO.setup(20, GPIO.OUT)
+# Black, M2B
+GPIO.setup(21, GPIO.OUT)
+# Speaker
+# Red, Positive
+GPIO.setup(16, GPIO.OUT)
 #--------------------
 
 #--------------------
@@ -125,16 +125,16 @@ while KeyPress != 'q':
     MotorTwoForward()
   
   if KeyPress == 's':
-  	MotorOneReverse()
-  	MotorTwoReverse()
+    MotorOneReverse()
+    MotorTwoReverse()
   
   if KeyPress == 'a':
-  	MotorOneForward()
-  	MotorTwoReverse()
+    MotorOneForward()
+    MotorTwoReverse()
   
   if KeyPress == 'd':
-  	MotorTwoForward()
-  	MotorOneReverse()
+    MotorTwoForward()
+    MotorOneReverse()
   
   time.sleep(ExecutionDuration)
   
