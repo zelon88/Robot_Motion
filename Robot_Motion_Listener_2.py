@@ -4,10 +4,10 @@
 # Written by Daniel Grimes & Justin Grimes.
 # Licensed Under GNU GPLv3
 # November 9th, 2019
-# Version v1.2
+# Version v1.0
 
 # This version of the program listens for keyboard inputs
-# with pynput.
+# with standard Python modules.
 
 # Designed with an RPi 2 Model B 
 
@@ -16,8 +16,8 @@
 import RPi.GPIO as GPIO
 # Import the time library.
 import time
-# Import the keyboard module from the pynput library.
-from pynput import keyboard
+# Import the keyboard module.
+import keyboard
 #--------------------
 
 #--------------------
@@ -27,12 +27,8 @@ GPIO.setmode(GPIO.BCM)
 
 #--------------------
 # Set the amount of time for each command to last, in seconds.
-ExecutionDuration = 0.5
+ExecutionDuration = 0.01
 #--------------------
-
-# -------------------
-ValidKeys = ['w', 's', 'a', 'd', 'q']
-# -------------------
 
 #--------------------
 # Set the mode for output GPIO pins used.
@@ -57,51 +53,6 @@ def Beep():
   GPIO.output(16, GPIO.HIGH)
   time.sleep(.2)
   GPIO.output(16, GPIO.LOW)
-#--------------------
-
-#--------------------
-# Start the keyboard listener using the pynput library.
-def ListenForKeys():
-  keyboard.Listener(on_press = On_Press, on_release = On_Release).start()
-#--------------------
-
-#--------------------
-# Listen for when keys are pressed.
-def On_Press(Key):
-  # Listen for the w key to be pressed.
-  # Powers all motors forwards.
-  if Key == 'w':
-    MotorOneForward()
-    MotorTwoForward()
-  # Listen for the s key to be pressed.
-  # Powers all motors backwards.
-  if Key == 's':
-    MotorOneReverse()
-    MotorTwoReverse()
-  # Listen for the a key to be pressed.
-  # Powers motor one forwards.
-  # Powers motor two backwards.
-  if Key == 'a':
-    MotorOneForward()
-    MotorTwoReverse()
-  # Listen for the d key to be pressed.
-  # Powers motor one backwards.
-  # Powers motor two forwards.
-  if Key == 'd':
-    MotorTwoForward()
-    MotorOneReverse()
-  if Key == 'q':
-    StopAllMotors()
-    keyboard.Listener.stop
-    PrintGoodbyeText()
-    sys.exit(0)
-#--------------------
-
-#--------------------
-# Listen for when keys are released.
-def On_Release(Key):
-  if Key in ValidKeys:
-    StopAllMotors()
 #--------------------
 
 #--------------------
@@ -156,7 +107,7 @@ def MotorTwoReverse():
 #--------------------
 # Print some welcome text at the start of the program.
 def PrintWelcomeText():
-  print("\nA program to control Raspberry Pi Robots! \nWritten by Daniel Grimes & Justin Grimes.\nLicensed Under GNU GPLv3. \nNovember 9th, 2019. \n")
+  print("\nA program to control Raspberry Pi Robots! \nWritten by Daniel Grimes & Justin Grimes.\nLicensed Under GNU GPLv3. \nNovember 9th, 2019. \nEnter a command...\n")
 #--------------------
 
 #--------------------
@@ -170,11 +121,31 @@ def PrintGoodbyeText():
 # The main logic of the program.
 PrintWelcomeText()
 
-ListenForKeys()
-
-while True:
-  On_Press(Key)
-  On_Release(Key)
-#--------------------
-
+while not keyboard.is_pressed('esc'):
+  if not keyboard.is_pressed('w') and not keyboard.is_pressed('s') and not keyboard.is_pressed('a') and not keyboard.is_pressed('d'):
+    StopAllMotors()
+    
+  if keyboard.is_pressed('w'):
+    MotorOneForward()
+    MotorTwoForward()
+    Beep()
+    
+  if keyboard.is_pressed('s'):
+    MotorOneReverse()
+    MotorTwoReverse()
+    Beep()
   
+  if keyboard.is_pressed('a'):
+    MotorOneForward()
+    MotorTwoReverse()
+    Beep()
+  
+  if keyboard.is_pressed('d'):
+    MotorTwoForward()
+    MotorOneReverse()
+    Beep()
+  
+  #time.sleep(ExecutionDuration)
+
+PrintGoodbyeText()
+#--------------------
