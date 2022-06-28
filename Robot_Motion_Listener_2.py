@@ -3,8 +3,8 @@
 # A program to control Raspberry Pi Robots! 
 # Written by Daniel Grimes & Justin Grimes.
 # Licensed Under GNU GPLv3
-# November 9th, 2019
-# Version v1.0
+# June 29th, 2022
+# Version v1.1
 
 # This version of the program listens for keyboard inputs
 # with standard Python modules.
