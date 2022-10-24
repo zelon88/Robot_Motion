@@ -3,8 +3,8 @@
 # A program to control Raspberry Pi Robots! 
 # Written by Daniel Grimes & Justin Grimes.
 # Licensed Under GNU GPLv3
-# June 29th, 2022
-# Version v1.1
+# November 9th, 2019
+# Version v1.0
 
 # This version of the program listens for keyboard inputs
 # with standard Python modules.
@@ -28,6 +28,11 @@ GPIO.setmode(GPIO.BCM)
 #--------------------
 # Set the amount of time for each command to last, in seconds.
 ExecutionDuration = 0.01
+#--------------------
+
+#--------------------
+# Set the default speed to use before a speed has been specified.
+DefaultSpeed = 9
 #--------------------
 
 #--------------------
@@ -116,31 +121,35 @@ def PrintGoodbyeText():
   print("\nThanks for playing, Have a nice day! :) \n")
 #--------------------
 
-
 #--------------------
 # The main logic of the program.
 PrintWelcomeText()
 
 while not keyboard.is_pressed('esc'):
+
   if not keyboard.is_pressed('w') and not keyboard.is_pressed('s') and not keyboard.is_pressed('a') and not keyboard.is_pressed('d'):
     StopAllMotors()
     
   if keyboard.is_pressed('w'):
-    MotorOneForward()
-    MotorTwoForward()
+    if not keyboard.is_pressed('d'):
+      MotorOneForward()
+    if not keyboard.is_pressed('a'):
+      MotorTwoForward()
     Beep()
     
-  if keyboard.is_pressed('s'):
-    MotorOneReverse()
-    MotorTwoReverse()
+  if keyboard.is_pressed('s') :
+    if not keyboard.is_pressed('d'):
+      MotorOneReverse()
+    if not keyboard.is_pressed('a'):
+      MotorTwoReverse()
     Beep()
   
-  if keyboard.is_pressed('a'):
+  if keyboard.is_pressed('a') and not keyboard.is_pressed('w') and not keyboard.is_pressed('s'):
     MotorOneForward()
     MotorTwoReverse()
     Beep()
   
-  if keyboard.is_pressed('d'):
+  if keyboard.is_pressed('d') and not keyboard.is_pressed('w') and not keyboard.is_pressed('s'):
     MotorTwoForward()
     MotorOneReverse()
     Beep()
