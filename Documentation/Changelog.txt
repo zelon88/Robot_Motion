@@ -1,0 +1,9 @@
+COMMIT - 10/25/2022
+v4.1 - Restructure repository, continue documentation.
+
+-v4.1.
+-Restructure the repository to preserve development versions.
+-Write a little blog post about each major previous version.
+-Continue refactoring the latest version.
+-Rename the latest version from Robot_Motion_Listener_4.py to simply Robot_Motion.py.
+-Add Changelog.txt.
