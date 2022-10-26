@@ -1,148 +1,510 @@
-# Robot_Motion.py
+# APPLICATION NAME
+#   Robot_Motion.py
 
-# A program to control Raspberry Pi Robots! 
-# Written by Daniel Grimes & Justin Grimes.
-# Licensed Under GNU GPLv3
-# November 9th, 2019
-# Version v1.1
+# APPLICATION INFORMATION
+#   Written by Daniel Grimes & Justin Grimes.
+#   https://github.com/zelon88/Robot_Motion
+#   Version v4.1, October 23rd, 2022
+#   Licensed Under GNU GPLv3
+
+# APPLICATION DESCRIPTION
+#   An application to control Raspberry Pi Robots!
+#   Turns a Raspberry Pi computer into a dual motor Electronic Speed Control (ESC)!
+
+# APPLICATION NOTES
+#   This application emulates the signal behavior of a simple MOSFET-style Electronic Speed Control (ESC).
+#   This application must be run as root in order to access the GPIO pins.
+#   This application tries to accomodate for CPU speed & performance.
+#   This application will provide full motor power if the CPU or GPIO cannot achieve the specified frequency.
+#   This application provides variable speed motor control for two motor channels.
+#   Motor count is arbitrary. Each channel can support multiple motors if the supply relays are adequate.
+
+# HARDWARE NOTES: 
+#   Tested with an RPi2 Model B & an RPi4 Model B.
+#   Compatible with all RPi boards with 40 pin GPIO headers.
+#   Compatible with Brushed DC Electric Motors.
+#   Not to be used to directly power motors from RPi GPIO pins!
+#   Damage will result from connecting a DC motor directly to the GPIO pins of an RPi!
+#   Traditional MOSFET ESC's are capable of powering the motor directly from their output.
+#   GPIO output to relays or non-ESC motor controller is required.
+#   Compatible with Non-ESC Brushed DC Motor Controllers or standard relays.
+#   Made to control tank-style robots with skid-steer drive configuirations.
+#   The quality of relays or motor controllers used will determine overall performance.
+#   Relays or motor controllers with high switching frequencies work best.
+#   An RPi with a faster CPU & GPIO will allow for higher frequencies.
+
+# DEFAULT GPIO PIN CONFIGURATION
+#   Numbering Style:  BCM
+#    Speaker
+#      Pin 36, GPIO 16, Red, Positive
+#      Pin 20, GND, Black, Negative
+#    Motor Relay 1
+#      Pin 37, GPIO 26, Red, Positive, M1A
+#      Pin 35, GPIO 19, Orange, Negative, M1B
+#    Motor Relay 2
+#      Pin 38, GPIO 20, Brown, Positive, M2A
+#      Pin 40, GPIO 21, Black, Negative, M2B
+#--------------------
 
 #--------------------
-# Inport the Raspberry Pi GPIO Library.
-# Designed with an RPi 2 Model B 
-import RPi.GPIO as GPIO
-import time
+# Initialize required variables for the messaging environment.
+def InitializeMessageCache():
+  LastMessage, MessageText = 'Init', 'Message'
+  return LastMessage, MessageText
 #--------------------
 
 #--------------------
-# Set the numbering mode for GPIO pins to BCM style.
-GPIO.setmode(GPIO.BCM)
+# Print a message to the console window.
+def PrintText(Text):
+  print('\n'+Text)
 #--------------------
 
 #--------------------
-# Set the amount of time for each command to last, in seconds.
-ExecutionDuration = 0.5
+# Print a message to the console without duplicating the last message.
+def PrintMessage(LastMessage, MessageText):
+  if not str(LastMessage) == str(MessageText):
+    print('\n'+str(MessageText))
+  LastMessage = MessageText
+  return(LastMessage)
 #--------------------
 
 #--------------------
-# Set the mode for output GPIO pins used.
-# Motor 1
-# Red, M1A
-GPIO.setup(26, GPIO.OUT)
-# Orange, M1B
-GPIO.setup(19, GPIO.OUT)
-# Motor2
-# Brown, M2A
-GPIO.setup(20, GPIO.OUT)
-# Black, M2B
-GPIO.setup(21, GPIO.OUT)
-# Speaker
-# Red, Positive
-GPIO.setup(16, GPIO.OUT)
+# Initialize required variables for the loop tracking environment.
+def InitializeLoopTracker():
+  LoopCounter, LoopTracker = 0, 0
+  return LoopCounter, LoopTracker
 #--------------------
 
 #--------------------
-# Send a beep to the speaker.
-def Beep():
+# Track the number of iterations of the main loop for debugging purposes.
+def TrackLoops(LastMessage, LoopCounter, LoopTracker, LoopAnnouncementInterval, MaxLoopCount, Debug):
+  BreakLoop = False
+  LoopAnnouncementInterval = LoopAnnouncementInterval
+  CurrentLoop = LoopTracker + LoopCounter
+  if LoopCounter == LoopAnnouncementInterval:
+    LoopTracker = CurrentLoop
+    LoopCounter = 0
+    if Debug == True:
+      LastMessage = PrintMessage(LastMessage, 'Execution has reached '+str(LoopTracker)+' cycles of the main loop.')
+  if CurrentLoop >= MaxLoopCount:
+    if Debug == True:
+      LastMessage = PrintText('Execution has reached '+str(CurrentLoop)+' cycles. The maximum number of cycles allowed by configuration is '+str(MaxLoopCount)+' cycles. This application will now terminate.')
+    BreakLoop = True 
+  return LastMessage, LoopCounter, LoopTracker, BreakLoop
+#--------------------
+
+#--------------------
+# Specify all the libraries to be loaded & the handles to use them.
+def ImportLibraries(LastMessage):
+  # Set somg error flags to default values.
+  LibErrorA, LibErrorB = '', False
+  # Import the Raspberry Pi GPIO Library.
+  try:
+    import RPi.GPIO as GPIO
+  except ModuleNotFoundError as LibErrorA:
+    LibErrorB = True
+    if Debug == True:
+      PrintMessage(LastMessage, 'Captured Exception: '+str(LibErrorA))
+  # Import the Time Library.
+  try:
+    import time as Time
+  except ModuleNotFoundError as LibErrorA:
+    LibErrorB = True
+    if Debug == True:
+      PrintMessage(LastMessage, 'Captured Exception: '+str(LibErrorA))
+  # Import the Keyboard Library.
+  try:
+    import keyboard as KB
+  except ModuleNotFoundError as LibErrorA:
+    LibErrorB = True
+    if Debug == True:
+      PrintMessage(LastMessage, 'Captured Exception: '+str(LibErrorA))
+  # Consolidate error flags to determine if any errors happened.
+  if LibErrorB != False:
+    PrintMessage(LastMessage, 'Error 1: Could Not Import Required Libraries. \nThis application will now terminate.')
+    exit()
+#--------------------
+
+#--------------------
+# Initialize the software operating environment.
+def InitializeSoftwareEnvironment(Debug):
+  LastMessage, MessageText = InitializeMessageCache()
+  if Debug == True:
+    LastMessage = PrintMessage(LastMessage, 'Initializing Software Operating Environment.')
+  LoopCounter, LoopTracker = InitializeLoopTracker()
+  ImportLibraries(LastMessage)
+  if Debug == True:
+    LastMessage = PrintMessage(LastMessage, 'Software Operating Environment Initialized.')
+  return LastMessage, MessageText, LoopCounter, LoopTracker
+#--------------------
+
+#--------------------
+# Initialize the GPIO environment for a 40 pin Raspberry Pi.
+def InitializeGPIO(GPIOMode, SpeakerGPIO, MotorRelayOnePositiveGPIO, MotorRelayOneNegativeGPIO, MotorRelayTwoPositiveGPIO, MotorRelayTwoNegativeGPIO):
+  # Set a flag to indicate that the GPIO is not initialized yet.
+  GPIOStarted = False
+  # Set the numbering mode for GPIO pins.
+  if GPIOMode == 'BCM':
+    GPIO.setmode(GPIO.BCM)
+  if GPIOMode == 'BOARD':
+    GPIO.setmode(GPIO.BOARD)
+  # Set the GPIO pin to use for controlling the speaker.
+  #  Red, Positive
+  GPIO.setup(SpeakerGPIO, GPIO.OUT)
+  # ANY GROUND PIN
+  #  Black, Negative
+  # Set the GPIO pins to use for controlling Motor Relay 1.
+  # Motor Relay 1
+  #  Red, Positive, M1A
+  GPIO.setup(MotorRelayOnePositiveGPIO, GPIO.OUT)
+  #  Orange, Negative, M1B
+  GPIO.setup(MotorRelayOneNegativeGPIO, GPIO.OUT)
+  # Set the GPIO pins to use for controlling Motor Relay 2.
+  # Motor Relay 2
+  #  Brown, Positive, M2A
+  GPIO.setup(MotorRelayTwoPositiveGPIO, GPIO.OUT)
+  #  Black, Negative, M2B
+  GPIO.setup(MotorRelayTwoNegativeGPIO, GPIO.OUT)
+  # Set a flag to indicate that the GPIO is fully initialized.
+  GPIOStarted = True
+  # Return the flag to the calling code as a sanity check.
+  return GPIOStarted
+#--------------------
+
+#--------------------
+# Craft a beep for the speaker, part 1.
+def Be(BeDuration):
   GPIO.output(16, GPIO.HIGH)
-  time.sleep(.2)
+  Time.sleep(BeDuration)
   GPIO.output(16, GPIO.LOW)
 #--------------------
 
 #--------------------
-# Turn off motor one.
+# Craft a beep for the speaker, part 2.
+def Ep(BeDuration, EpDuration):
+  Time.sleep(EpDuration)
+  GPIO.output(16, GPIO.HIGH)
+  Time.sleep(BeDuration)
+  GPIO.output(16, GPIO.LOW)
+#--------------------
+
+#--------------------
+# Command the speaker to beep.
+def Beep(BeDuration, EpDuration, BeepDuration):
+  Be(BeDuration)
+  Ep(BeDuration, EpDuration)
+#--------------------
+
+#--------------------
+# Update the speed setting for the motors.
+def UpdateSpeed(RequestedSpeed, ExecDuration, DwellDuration, DefaultSensitivity, Debug):
+  RequestedSpeed = int(RequestedSpeed)
+  if RequestedSpeed > 9:
+    RequestedSpeed = 0
+  if RequestedSpeed == 0:
+    ExecDuration = DwellDuration
+  if RequestedSpeed > 0 and RequestedSpeed <= 9:
+    ExecDuration = RequestedSpeed * RequestedSpeed
+    ExecDuration = ExecDuration / DefaultSensitivity
+  return ExecDuration, RequestedSpeed
+#--------------------
+
+#--------------------
+# Initialize the hardware operating environment.
+def InitializeHardwareEnvironment(LastMessage, DefaultSpeed, DefaultExecutionDuration, DefaultDwellDuration, DefaultSensitivity, Debug):
+  if Debug == True:
+    LastMessage = PrintMessage(LastMessage, 'Initializing Hardware Operating Environment.')
+  GPIOStarted = InitializeGPIO()
+  ExecutionDuration, RequestedSpeed = UpdateSpeed(DefaultSpeed, DefaultExecutionDuration, DefaultDwellDuration, DefaultSensitivity, Debug)
+  DwellDuration = DefaultDwellDuration
+  return LastMessage, ExecutionDuration, RequestedSpeed, DwellDuration
+#--------------------
+
+#--------------------
+# Initialize the entire operational environment for the application & attached hardware.
+def InitializeEnvironment(DefaultSpeed, DefaultExecutionDuration, DefaultDwellDuration, DefaultSensitivity, Debug):
+  BreakLoop = False
+  LastMessage, MessageText, LoopCounter, LoopTracker = InitializeSoftwareEnvironment(Debug)
+  LastMessage, ExecutionDuration, RequestedSpeed, DwellDuration = InitializeHardwareEnvironment(LastMessage, DefaultSpeed, DefaultExecutionDuration, DefaultDwellDuration, DefaultSensitivity, Debug)
+  return LastMessage, MessageText, LoopCounter, LoopTracker, ExecutionDuration, RequestedSpeed, DwellDuration, BreakLoop
+#--------------------
+
+#--------------------
+# Command motor channel one to stop.
 def MotorOneStop():
   GPIO.output(26, GPIO.LOW)
   GPIO.output(19, GPIO.LOW)
 #--------------------
 
 #--------------------
-# Turn off motor two.
+# Command motor channel two to stop.
 def MotorTwoStop():
   GPIO.output(20, GPIO.LOW)
   GPIO.output(21, GPIO.LOW)
 #--------------------
 
 #--------------------
-# Turn off all motors.
+# Command all motor channels to stop.
 def StopAllMotors():
   MotorOneStop()
   MotorTwoStop()
 #--------------------
 
 #--------------------
-# Power motor one forwards.
+# Command motor channel one to rotate forward.
 def MotorOneForward():
-  MotorOneStop()
   GPIO.output(26, GPIO.HIGH)
 #--------------------
 
 #--------------------
-# Power motor two forwards.
+# Command motor channel two to rotate forward.
 def MotorTwoForward():
-  MotorTwoStop()
   GPIO.output(20, GPIO.HIGH)
 #--------------------
 
 #--------------------
-# Power motor one backwards.
+# Command motor channel one to rotate backward.
 def MotorOneReverse():
-  MotorOneStop()
   GPIO.output(19, GPIO.HIGH)
 #--------------------
 
 #--------------------
-# Power motor two backwards.
+# Command motor channel two to rotate backward.
 def MotorTwoReverse():
-  MotorTwoStop()
   GPIO.output(21, GPIO.HIGH)
 #--------------------
 
 #--------------------
-# Print some welcome text at the start of the program.
-def PrintWelcomeText():
-  print("\nA program to control Raspberry Pi Robots! \nWritten by Daniel Grimes & Justin Grimes.\nLicensed Under GNU GPLv3. \nNovember 9th, 2019. \n")
+# Command all motor channels to rotate forward.
+def ForwardAllMotors():
+  MotorOneForward()
+  MotorTwoForward()
 #--------------------
 
 #--------------------
-# Print some welcome text at the start of the program.
-def PrintGoodbyeText():
-  print("\nThanks for playing, Have a nice day! :) \n")
+# Command all motor channels to rotate backward.
+def BackwardAllMotors():
+  MotorOneReverse()
+  MotorTwoReverse()
 #--------------------
 
-
 #--------------------
-# The main logic of the program.
-PrintWelcomeText()
-
-KeyPress = ''
-
-while KeyPress != 'q':
-
-  KeyPress = input('\nEnter a command...')
-  
-  if KeyPress == 'w':
-    MotorOneForward()
-    MotorTwoForward()
-  
-  if KeyPress == 's':
-    MotorOneReverse()
-    MotorTwoReverse()
-  
-  if KeyPress == 'a':
-    MotorOneForward()
-    MotorTwoReverse()
-  
-  if KeyPress == 'd':
-    MotorTwoForward()
-    MotorOneReverse()
-  
-  time.sleep(ExecutionDuration)
-  
-  StopAllMotors()
-  
-  Beep()
-
-PrintGoodbyeText()
+# Detect when a speed update is required.
+def DetectSpeedChange(LastMessage, ExecDuration, DwellDuration, DefaultSensitivity, Debug):
+  if KB.is_pressed('1'):
+    ExecDuration, RequestedSpeed = UpdateSpeed(1, ExecDuration, DwellDuration, DefaultSensitivity, Debug)
+  if KB.is_pressed('2'):
+    ExecDuration, RequestedSpeed = UpdateSpeed(2, ExecDuration, DwellDuration, DefaultSensitivity, Debug)
+  if KB.is_pressed('3'):
+    ExecDuration, RequestedSpeed = UpdateSpeed(3, ExecDuration, DwellDuration, DefaultSensitivity, Debug)
+  if KB.is_pressed('4'):
+    ExecDuration, RequestedSpeed = UpdateSpeed(4, ExecDuration, DwellDuration, DefaultSensitivity, Debug)
+  if KB.is_pressed('5'):
+    ExecDuration, RequestedSpeed = UpdateSpeed(5, ExecDuration, DwellDuration, DefaultSensitivity, Debug)
+  if KB.is_pressed('6'):
+    ExecDuration, RequestedSpeed = UpdateSpeed(6, ExecDuration, DwellDuration, DefaultSensitivity, Debug)
+  if KB.is_pressed('7'):
+    ExecDuration, RequestedSpeed = UpdateSpeed(7, ExecDuration, DwellDuration, DefaultSensitivity, Debug)
+  if KB.is_pressed('8'):
+    ExecDuration, RequestedSpeed = UpdateSpeed(8, ExecDuration, DwellDuration, DefaultSensitivity, Debug)
+  if KB.is_pressed('9'):
+    ExecDuration, RequestedSpeed = UpdateSpeed(9, ExecDuration, DwellDuration, DefaultSensitivity, Debug)
+  if KB.is_pressed('0'):
+    ExecDuration, RequestedSpeed = UpdateSpeed(0, ExecDuration, DwellDuration, DefaultSensitivity, Debug)
+  if Debug == True:
+    LastMessage = PrintMessage(LastMessage, 'Command Detected. Updating Speed to '+str(RequestedSpeed)+'.\nThe Ideal Execution Duration is '+str(ExecDuration)+'.\nThe Ideal Dwell Duration is '+str(DwellDuration)+'.\nThe Requested Speed is '+str(RequestedSpeed)+'.')
+  return LastMessage, ExecDuration, RequestedSpeed
 #--------------------
 
+#--------------------
+# Detect a request to stop all motors.
+def DetectStopRequest(LastMessage, Debug):
+  if not KB.is_pressed('w') and not KB.is_pressed('s') and not KB.is_pressed('a') and not KB.is_pressed('d'):
+    if not KB.is_pressed('q') and not KB.is_pressed('z') and not KB.is_pressed('e') and not KB.is_pressed('c'):
+      StopAllMotors()
+      if Debug == True:
+        LastMessage = PrintMessage(LastMessage, 'Command Detected. All Motors Stop Moving.')
+  return LastMessage
+#--------------------
+
+#--------------------
+# Detect a request to rotate all motors forward.
+def DetectForwardRequest(LastMessage, Debug):
+  Moving = False
+  if KB.is_pressed('w'):
+    if not KB.is_pressed('s') and not KB.is_pressed('d') and not KB.is_pressed('c'):
+      MotorOneForward()
+      Moving = True
+    if not KB.is_pressed('s') and not KB.is_pressed('a') and not KB.is_pressed('z'):
+      MotorTwoForward()
+      Moving = True
+    if Debug == True and Moving == True:
+      LastMessage = PrintMessage(LastMessage, 'Command Detected. All Motors Moving Forward.')
+    return LastMessage
+#--------------------
+
+#--------------------
+# Detect a request to rotate all motors backward.
+def DetectReverseRequest(LastMessage, Debug):
+  Moving = False
+  if KB.is_pressed('s'):
+    if not KB.is_pressed('w') and not KB.is_pressed('a') and not KB.is_pressed('e'):
+      MotorOneReverse()
+      Moving = True
+    if not KB.is_pressed('w') and not KB.is_pressed('d') and not KB.is_pressed('q'):
+      MotorTwoReverse()
+      Movine = True
+    if Debug == True and Moving == True:
+      LastMessage = PrintMessage(LastMessage, 'Command Detected. All Motors Moving Backward.')
+    return LastMessage
+#--------------------
+
+#--------------------
+# Detect a request to rotate all motors left.
+def DetectLeftRequest(LastMessage, Debug):
+  if KB.is_pressed('a'):
+    if not KB.is_pressed('w') and not KB.is_pressed('s') and not KB.is_pressed('d') and not KB.is_pressed('c') and not KB.is_pressed('q'):
+      if Debug == True: 
+        LastMessage = PrintMessage(LastMessage, 'Command Detected. All Motors Moving Left.')
+      MotorOneForward()
+      MotorTwoReverse()
+  return LastMessage
+#--------------------
+
+#--------------------
+# Detect a request to rotate all motors right.
+def DetectRightRequest(LastMessage, Debug):
+  if KB.is_pressed('d'):
+    if not KB.is_pressed('w') and not KB.is_pressed('s') and not KB.is_pressed('a') and not KB.is_pressed('z') and not KB.is_pressed('e'):
+      MotorTwoForward()
+      MotorOneReverse()
+      if Debug == True:
+        LastMessage = PrintMessage(LastMessage, 'Command Detected. All Motors Moving Right.')
+  return LastMessage
+#--------------------
+
+#--------------------
+# Detect a request to rotate left motors right.
+def DetectLeftLimpRightRequest(LastMessage, Debug):
+  if KB.is_pressed('q'):
+    if not KB.is_pressed('s') and not KB.is_pressed('a') and not KB.is_pressed('z') and not KB.is_pressed('c'):
+      MotorTwoForward()
+      if Debug == True:
+        LastMessage = PrintMessage(LastMessage, 'Command Detected. Left Motors Moving Right.')
+  return LastMessage
+#--------------------
+
+#--------------------
+# Detect a request to rotate left motors left.
+def DetectLeftLimpLeftRequest(LastMessage, Debug):
+  if KB.is_pressed('z'):
+    if not KB.is_pressed('w') and not KB.is_pressed('d') and not KB.is_pressed('q'):
+      MotorTwoReverse()
+      if Debug == True:
+        LastMessage = PrintMessage(LastMessage, 'Command Detected. Left Motors Moving Left.')
+  return LastMessage
+#--------------------
+
+#--------------------
+# Detect a request to rotate right motors left.
+def DetectRightLimpLeftRequest(LastMessage, Debug):
+  if KB.is_pressed('e'):
+    if not KB.is_pressed('s') and not KB.is_pressed('d') and not KB.is_pressed('c'):
+      MotorOneForward()
+      if Debug == True:
+        LastMessage = PrintMessage(LastMessage, 'Command Detected. Right Motors Moving Left.')
+  return LastMessage
+#--------------------
+
+#--------------------
+# Detect a request to rotate right motors right.
+def DetectRightLimpRightRequest(LastMessage, Debug):
+  if KB.is_pressed('c'):
+    if not KB.is_pressed('w') and not KB.is_pressed('a') and not KB.is_pressed('e'):
+      MotorOneReverse()
+      if Debug == True:
+        LastMessage = PrintMessage(LastMessage, 'Command Detected. Right Motors Moving Right.')
+  return LastMessage
+#--------------------
+
+#--------------------
+# Detect which motion is being requested & activate the corresponding motor command.
+def DetectMotion(LastMessage, Debug):
+  LastMessage = DetectStopRequest(LastMessage, Debug)
+  LastMessage = DetectForwardRequest(LastMessage, Debug)
+  LastMessage = DetectReverseRequest(LastMessage, Debug)
+  LastMessage = DetectRightRequest(LastMessage, Debug)
+  LastMessage = DetectLeftLimpRightRequest(LastMessage, Debug)
+  LastMessage = DetectLeftLimpLeftRequest(LastMessage, Debug)
+  LastMessage = DetectRightLimpLeftRequest(LastMessage, Debug)
+  LastMessage = DetectRightLimpRightRequest(LastMessage, Debug)
+  if EnableSpeakerBeep == True:
+    Beep()
+  return LastMessage
+#--------------------
+
+#--------------------
+# Listen for requests from the user & call the appropriate procedure to accomplish it.
+def ListenForRequests(LastMessage, ExecutionDuration, DwellDuration, DefaultSensitivity, Debug):
+  StartTime = Time.time()
+  LastMessage, ExecutionDuration, RequestedSpeed = DetectSpeedChange(LastMessage, ExecutionDuration, DwellDuration, DefaultSensitivity, Debug)
+  LastMessage = DetectMotion(LastMessage, Debug)
+  FinishTime = Time.time()
+  return LastMessage, StartTime, FinishTime, ExecutionDuration, RequestedSpeed
+#--------------------
+
+#--------------------
+# Calculate the amount of sleep required to achieve the desired level of speed.
+def PauseExecution(LoopCounter, LastMessage, StartTime, FinishTime, ExecutionDuration, DwellDuration, RequestedSpeed):
+  LoopCounter = LoopCounter + 1
+  ElapsedTime = StartTime - FinishTime
+  if ElapsedTime <= ExecutionDuration:
+    SleepDuration = ExecutionDuration - ElapsedTime
+    Time.sleep(SleepDuration)
+  else:
+    SleepDuration = 0
+  DwellDuration = DefaultDwellDuration - SleepDuration
+  if ExecutionDuration >= DwellDuration:
+    DwellDuration = 0
+  if not RequestedSpeed == 0:
+    StopAllMotors()
+    Time.sleep(DwellDuration)
+  return LoopCounter, LastMessage, DwellDuration
+#--------------------
+
+#--------------------
+# The main logic of the application.
+
+# Import the configuration variables located in Robot_Motion_Config.py.
+try:
+  from Robot_Motion_Config import *
+except ModuleNotFoundError as ConfigError:
+  PrintText('Captured Exception: '+str(ConfigError))
+  PrintText('Error 2: Could Not Import Configuration File. \nThis application will now terminate.')
+  exit()
+
+# Print the start text.
+PrintText(StartText)
+
+# Initialize the operating environment.
+LastMessage, MessageText, LoopCounter, LoopTracker, ExecutionDuration, RequestedSpeed, DwellDuration, BreakLoop = InitializeEnvironment(DefaultSpeed, DefaultExecutionDuration, DefaultDwellDuration, DefaultSensitivity, Debug)
+
+# Print the welcome text.
+PrintText(WelcomeText)
+
+# Start listening for requests from keyboard input.
+# Break out of this loop if the max loop counter has been reached or if the Esc key is pressed.
+while BreakLoop == False and not KB.is_pressed('esc'):
+
+  # Listen for & process requests from user input.
+  LastMessage, StartTime, FinishTime, ExecutionDuration, RequestedSpeed = ListenForRequests(LastMessage, ExecutionDuration, DwellDuration, DefaultSensitivity, Debug)
   
+  # Throttle the application according to configuration settings & compute performance.
+  LoopCounter, LastMessage, DwellDuration = PauseExecution(LastMessage, StartTime, FinishTime, ExecutionDuration, DefaultDwellDuration, RequestedSpeed)
+  
+  # Track & control application execution for debugging purposes. 
+  LastMessage, LoopCounter, LoopTracker, BreakLoop = TrackLoops(LastMessage, LoopCounter, LoopTracker, LoopAnnouncementInterval, Debug)
+
+# Print the goodbye text.
+PrintText(GoodbyeText)
+#--------------------
