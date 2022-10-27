@@ -43,7 +43,7 @@ You can't show dot notation to a non-programmer and expect them to know what's g
 Functional or procedural programming is much more approachable in this regard.
 The human brain is not very object oriented. Humans think in word documents, not spreadsheets.
 Humans are good at retaining patterns, procedures, techniques, and algorithms. 
-Humans are good at retaining data, data types, constraints, requirements, or attributes. 
+Humans are not good at retaining data, data types, constraints, requirements, or attributes. 
 
 ### Original File Header
 > \# Robot_Motion_Listener.py
