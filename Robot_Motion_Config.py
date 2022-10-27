@@ -4,7 +4,7 @@
 # APPLICATION INFORMATION
 #   Written by Daniel Grimes & Justin Grimes.
 #   https://github.com/zelon88/Robot_Motion
-#   Version v4.1, October 23rd, 2022
+#   Version v4.2, October 26th, 2022
 #   Licensed Under GNU GPLv3
 
 # APPLICATION DESCRIPTION
@@ -53,7 +53,7 @@ ApplicationName = str('Robot Motion')
 
 #--------------------
 # Set a string containing the version of this application to display to the user.
-VersionInfo = str('Version v4.1, October 25th, 2022')
+VersionInfo = str('Version v4.2, October 26th, 2022')
 #--------------------
 
 #--------------------
@@ -89,8 +89,8 @@ EnableSpeakerBeep = bool(True)
 
 #--------------------
 # How long should indicator beeps last, in seconds.
-# Default is ExecutionTime / 100.
-BeepDuration = float(100000 / 1)
+# Default is 1 / 10000.
+BeepDuration = float(1 / 10000)
 #--------------------
 
 #--------------------
@@ -124,8 +124,8 @@ MaxLoopCount = int(0)
 # This controls the overall frequency of the speed control.
 # This is basically controlling the MOSFET frequency in a traditional ESC.
 # Must be smaller than the Execution Duration.
-# Default is 1 / 100.
-DefaultDwellDuration = float(1 / 100)
+# Default is 1 / 50.
+DefaultDwellDuration = float(1 / 50)
 #--------------------
 
 #--------------------
@@ -146,8 +146,8 @@ DefaultSpeed = int(0)
 #--------------------
 # Set the default sensitivity for the speed controller.
 # Faster boards means you can increase this number.
-# Default is 10000.
-DefaultSensitivity = int(10000)
+# Default is 2000.
+DefaultSensitivity = int(2000)
 #--------------------
 
 #--------------------
@@ -156,6 +156,11 @@ DefaultSensitivity = int(10000)
 # Default is GPIO.BCM.
 GPIOMode = str('BCM')
 #--------------------
+
+#--------------------
+# Set whether or not to display GPIO related warnings in the console.
+# Default is False.
+GPIOWarnings = False
 
 #--------------------
 # Set the GPIO pin to use for controlling the speaker.
