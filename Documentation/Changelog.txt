@@ -1,3 +1,16 @@
+Robot_Master Changelog
+
+----------
+COMMIT - 10/26/2022
+v4.2 - Correct bugs, test code. Adjust variables to relays.
+
+-v4.2.
+-Fix a bunch of errors from the recent refactor.
+-Had to modify a bunch of function inputs/outputs.
+-Test on a robot.
+-Works well. Adjusting is hard to get perfect because the range of speed seems to both go over and under the capabilities of my relays.
+
+----------
 COMMIT - 10/25/2022
 v4.1 - Restructure repository, continue documentation.
 
