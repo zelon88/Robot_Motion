@@ -56,9 +56,10 @@ at a time is impossible.
 We quickly burned out the gear motors, replaced them, and burned out the replacements.
 We learned a lot including that the motors were simply too small for the weight
 of the batteries. As a result, the current draw was putting us over the edge of what 
-the electronics could supply. We tried adding massive capacitors but these only helped
-until the batteries dropped to about 50-75% capacity. Ultimately our vision for this 
-robot had already outgrown the chassis and drivetrain we were working with.
+the electronics could supply. The voltage drop from the motors would kill the Raspberry
+Pi causing it to reboot and kill the application. We tried adding massive capacitors but
+these only helped until the batteries dropped to about 50-75% capacity. Ultimately our vision
+for this robot had already outgrown the chassis and drivetrain we were working with.
 
 ### Original File Header
 > \# Robot_Motion.py
