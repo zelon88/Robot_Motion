@@ -62,7 +62,7 @@ frequency. We didn't know if the RPI had enough processing speed or low enough l
 all of this code in between cycles of this unknown frequency. 
 
 ### Result
-This iteration contained a bug that lead to the realization that we were not far off from
+This iteration contained a bug that led to the realization that we were not far off from
 creating a MOSFET style electronic speed control (ESC) for brushed DC motors. We finalized
 this version of the application, including the bug, which reduces motor performance considerably.
 Regardless we put this code to good use in a new robot chassis.
