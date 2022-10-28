@@ -4,7 +4,7 @@
 # APPLICATION INFORMATION
 #   Written by Daniel Grimes & Justin Grimes.
 #   https://github.com/zelon88/Robot_Motion
-#   Version v4.2, October 26th, 2022
+#   Version v4.3, October 27th, 2022
 #   Licensed Under GNU GPLv3
 
 # APPLICATION DESCRIPTION
@@ -53,7 +53,7 @@ ApplicationName = str('Robot Motion')
 
 #--------------------
 # Set a string containing the version of this application to display to the user.
-VersionInfo = str('Version v4.2, October 26th, 2022')
+VersionInfo = str('Version v4.3, October 27th, 2022')
 #--------------------
 
 #--------------------
@@ -123,16 +123,17 @@ MaxLoopCount = int(0)
 # This controls how long each motor is unpowered during a move command.
 # This controls the overall frequency of the speed control.
 # This is basically controlling the MOSFET frequency in a traditional ESC.
-# Must be smaller than the Execution Duration.
-# Default is 1 / 50.
-DefaultDwellDuration = float(1 / 50)
+# Must be longer than the Execution Duration.
+# Default is 1 / 30.
+# Multiples of the default work well.
+DefaultDwellDuration = float(1 / 30)
 #--------------------
 
 #--------------------
 # Set the amount of time for each command to last, in seconds.
 # This controls how long each motor is powered during a move command by default.
 # This value is variable. The default value is only used during initialization.
-# Must be larger than the Dwell Duration.
+# Must be shorter than the Dwell Duration.
 # Default is DefaultDwellDuration / 10.
 DefaultExecutionDuration = float(DefaultDwellDuration / 10)
 #--------------------
@@ -146,21 +147,22 @@ DefaultSpeed = int(0)
 #--------------------
 # Set the default sensitivity for the speed controller.
 # Faster boards means you can increase this number.
-# Default is 2000.
-DefaultSensitivity = int(2000)
+# Default is 2500.
+# Multiples of the default work well.
+DefaultSensitivity = int(2500)
 #--------------------
 
 #--------------------
 # Set the GPIO pin numbering mode.
 # Supports BCM and BOARD numbering styles.
-# Default is GPIO.BCM.
+# Default is BCM.
 GPIOMode = str('BCM')
 #--------------------
 
 #--------------------
 # Set whether or not to display GPIO related warnings in the console.
 # Default is False.
-GPIOWarnings = False
+GPIOWarnings = bool(False)
 
 #--------------------
 # Set the GPIO pin to use for controlling the speaker.
@@ -171,23 +173,23 @@ SpeakerGPIO = int(16)
 #--------------------
 # Set the GPIO pins to use for controlling the positive output to Motor Relay 1.
 # Default is 26.
-MotorRelayOnePositiveGPIO = 26
+MotorRelayOnePositiveGPIO = int(26)
 #--------------------
 
 #--------------------
 # Set the GPIO pins to use for controlling the negative output to Motor Relay 1.
 # Default is 19.
-MotorRelayOneNegativeGPIO = 19
+MotorRelayOneNegativeGPIO = int(19)
 #--------------------
 
 #--------------------
 # Set the GPIO pins to use for controlling the positive output to Motor Relay 2.
 # Default is 20.
-MotorRelayTwoPositiveGPIO = 20
+MotorRelayTwoPositiveGPIO = int(20)
 #--------------------
 
 #--------------------
 # Set the GPIO pins to use for controlling the negative output to Motor Relay 2.
 # Default is 21.
-MotorRelayTwoNegativeGPIO = 21
+MotorRelayTwoNegativeGPIO = int(21)
 #--------------------
