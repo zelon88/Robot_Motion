@@ -328,11 +328,15 @@ def DetectSpeedChange(LastMessage, ExecDuration, DwellDuration, DefaultSensitivi
 #--------------------
 # Detect a request to stop all motors.
 def DetectStopRequest(LastMessage, KB, MotorRelayOnePositiveGPIO, MotorRelayOneNegativeGPIO, MotorRelayTwoPositiveGPIO, MotorRelayTwoNegativeGPIO, Debug):
+  CheckOne, CheckTwo = False, False
   if not KB.is_pressed('w') and not KB.is_pressed('s') and not KB.is_pressed('a') and not KB.is_pressed('d'):
-    if not KB.is_pressed('q') and not KB.is_pressed('z') and not KB.is_pressed('e') and not KB.is_pressed('c'):
-      StopAllMotors(MotorRelayOnePositiveGPIO, MotorRelayOneNegativeGPIO, MotorRelayTwoPositiveGPIO, MotorRelayTwoNegativeGPIO)
-      if Debug == True:
-        LastMessage = PrintMessage(LastMessage, 'Command Detected. All Motors Stop Moving.')
+    CheckOne = True
+  if not KB.is_pressed('q') and not KB.is_pressed('z') and not KB.is_pressed('e') and not KB.is_pressed('c'):
+    CheckTwo = True
+  if CheckOne == True and CheckTwo == True:
+    StopAllMotors(MotorRelayOnePositiveGPIO, MotorRelayOneNegativeGPIO, MotorRelayTwoPositiveGPIO, MotorRelayTwoNegativeGPIO)
+    if Debug == True:
+      LastMessage = PrintMessage(LastMessage, 'Command Detected. All Motors Stop Moving.')
   return LastMessage
 #--------------------
 
