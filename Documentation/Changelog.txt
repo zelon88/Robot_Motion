@@ -2,6 +2,15 @@ Robot_Master Changelog
 
 ----------
 COMMIT - 10/26/2022
+v4.3 - Update documentation to improve typos, spelling, & accuracy.
+
+-v4.3.
+-Improve documentation.
+-Improve code comments.
+-Fix hardcoded GPIO pins not respecting the GPIO settings in config.py.
+
+----------
+COMMIT - 10/26/2022
 v4.2 - Correct bugs, test code. Adjust variables to relays.
 
 -v4.2.
