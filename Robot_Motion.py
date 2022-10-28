@@ -363,7 +363,7 @@ def DetectReverseRequest(LastMessage, KB, MotorRelayOneNegativeGPIO, MotorRelayT
       Moving = True
     if not KB.is_pressed('w') and not KB.is_pressed('d') and not KB.is_pressed('q'):
       MotorTwoReverse(MotorRelayTwoNegativeGPIO)
-      Movine = True
+      Moving = True
     if Debug == True and Moving == True:
       LastMessage = PrintMessage(LastMessage, 'Command Detected. All Motors Moving Backward.')
   return LastMessage
