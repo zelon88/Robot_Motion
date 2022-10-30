@@ -50,7 +50,9 @@ Supported Keyboard Inputs Include:
      Move Left (Left Channel Only):          Q
      Move Right (Left Channel Only):         Z
      Move Left (Right Channel Only):         E
-     Move Right (Right Channel Only):        C   
+     Move Right (Right Channel Only):        C
+     Increase Speed by 1:                    =
+     Decrease Speed by 1:                    -
      Set Speed To Minimum:                   0
      Set Speed To Level 1:                   1
      Set Speed To Level 2:                   2
