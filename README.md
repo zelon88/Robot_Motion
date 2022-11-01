@@ -55,8 +55,7 @@ Supported Keyboard Inputs Include:
      Decrease Sensitivity:                   [
      Increase Speed by 1:                    =
      Decrease Speed by 1:                    -
-     Set Speed To Level Minimum:             0
-     Set Speed To Level 1:                   1
+     Set Speed To Level Minimum:             1
      Set Speed To Level 2:                   2
      Set Speed To Level 3:                   3
      Set Speed To Level 4:                   4
