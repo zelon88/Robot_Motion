@@ -1,6 +1,28 @@
 Robot_Master Changelog
 
 ----------
+COMMIT - 10/31/2022
+v4.4 - Add keyboard mapping to config. Add turn boost to config. Various improvements.
+
+-v4.4.
+-Add the ability to adjust which keys are mapped to which functions.
+-Add boost & reduction variables to config.
+-Now you can boost or reduce the output during turn operations to get the perfect amount of power at all times.
+-Add "Increase Speed" and "Decrease Speed" keyboard inputs.
+-Move FinishTime way towards the end of loop execution.
+-Improve the accuracy of the loop timing mechanisms by moving TrackLoops() before the FinishTime is defined.
+-Addedd the ability to completely disable loop tracking to improve performance.
+-Improved code comments.
+-Improve readability of console output.
+-Improve consistency of console output.
+-Improve error handling.
+-Improve error verbosity.
+-Redesign the way sending a beep to the speaker works.
+-Detect and remediate multiple speed change requests per cycle.
+-Added adjustable sensitivity with the adjustment keys being set to [ and ] by default.
+-Create intervals for performing speed & sensitivity updates to improve performance & reduce duplicate requests.
+
+----------
 COMMIT - 10/26/2022
 v4.3 - Update documentation to improve typos, spelling, & accuracy.
 
