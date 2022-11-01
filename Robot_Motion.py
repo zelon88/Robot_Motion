@@ -58,7 +58,6 @@
 #   Decrease Sensitivity:                   [
 #   Increase Speed by 1:                    =
 #   Decrease Speed by 1:                    -
-#   Set Speed To Minimum:                   0
 #   Set Speed To Level 1:                   1
 #   Set Speed To Level 2:                   2
 #   Set Speed To Level 3:                   3
