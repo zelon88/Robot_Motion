@@ -51,6 +51,8 @@ Supported Keyboard Inputs Include:
      Move Right (Left Channel Only):         Z
      Move Left (Right Channel Only):         E
      Move Right (Right Channel Only):        C
+     Increase Sensitivity:                   ]
+     Decrease Sensitivity:                   [
      Increase Speed by 1:                    =
      Decrease Speed by 1:                    -
      Set Speed To Minimum:                   0
