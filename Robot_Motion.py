@@ -50,8 +50,8 @@
 #   Move Backward:                          S
 #   Move Left:                              A
 #   Move Right:                             D
-#   Move Left (Left Channel Only):          Q
-#   Move Right (Left Channel Only):         Z
+#   Move Left (Left Channel Only):          Z
+#   Move Right (Left Channel Only):         Q
 #   Move Left (Right Channel Only):         E
 #   Move Right (Right Channel Only):        C
 #   Increase Sensitivity:                   ]

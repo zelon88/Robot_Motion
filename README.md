@@ -47,15 +47,11 @@ Supported Keyboard Inputs Include:
      Move Backward:                          S
      Move Left:                              A
      Move Right:                             D
-     Move Left (Left Channel Only):          Q
-     Move Right (Left Channel Only):         Z
+     Move Left (Left Channel Only):          Z
+     Move Right (Left Channel Only):         Q
      Move Left (Right Channel Only):         E
-     Move Right (Right Channel Only):        C
-     Increase Sensitivity:                   ]
-     Decrease Sensitivity:                   [
-     Increase Speed by 1:                    =
-     Decrease Speed by 1:                    -
-     Set Speed To Minimum:                   0
+     Move Right (Right Channel Only):        C   
+     Set Speed To Level Minimum:             0
      Set Speed To Level 1:                   1
      Set Speed To Level 2:                   2
      Set Speed To Level 3:                   3
@@ -65,7 +61,7 @@ Supported Keyboard Inputs Include:
      Set Speed To Level 7:                   7
      Set Speed To Level 8:                   8
      Set Speed To Level 9:                   9
-     Set Speed To Level 10:                  0
+     Set Speed To Level Maximum:             0
      Close Application:                      Esc
 
 -----------------------------------------------------------------------------------
