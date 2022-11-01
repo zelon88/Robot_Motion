@@ -37,7 +37,7 @@ Step By Step Instructions:
 
 1. Open a terminal.
 2. Make sure all dependencies are installed. `pip install keyboard RPi`
-3. Navigate to the directory where the Robot_Motion Application application is stored. `cd /path/to/Robot_Motion`
+3. Navigate to the directory where the Robot_Motion application is stored. `cd /path/to/Robot_Motion`
 4. Use your favorite text editor to adjust the configuration file named `Robot_Motion_Config.py`.
 5. Run this application as root with Python. `sudo python Robot_Motion.py`
   
