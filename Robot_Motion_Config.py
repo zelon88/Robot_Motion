@@ -238,13 +238,13 @@ DefaultSensitivity = int(2500)
 #--------------------
 # The minimum sensitivity that is allowed to be set using the increase & decrease inputs.
 # Default is 500
-MinimumSensitivity = 500
+MinimumSensitivity = int(500)
 #--------------------
 
 #--------------------
 # The minimum sensitivity that is allowed to be set using the increase & decrease inputs.
 # Default is 10000
-MaximumSensitivity = 10000
+MaximumSensitivity = int(10000)
 #--------------------
 
 #--------------------
