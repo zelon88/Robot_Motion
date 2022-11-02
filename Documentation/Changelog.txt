@@ -1,6 +1,17 @@
 Robot_Master Changelog
 
 ----------
+COMMIT - 11/1/2022
+v4.5 - Fix inconsistency in forward/backward movement + turning at the same time.
+
+-v4.5.
+-Fix an inconsistent state when turning and moving forward or backward.
+-Fix an issue where speed commands were not being displayed when debug is set.
+-Add a high performance tuned version of the config file as a template.
+-Improve documentation.
+-Include a copy of the GNU GPL v3 license.
+
+----------
 COMMIT - 10/31/2022
 v4.4 - Add keyboard mapping to config. Add turn boost to config. Various improvements.
 

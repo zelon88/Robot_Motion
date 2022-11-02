@@ -1,0 +1,158 @@
+----------------------------------------------------------------------------------------------------------------------------------------------------------------
+APPLICATION NAME
+  Robot_Motion.py
+
+APPLICATION INFORMATION
+  Written by Daniel Grimes & Justin Grimes.
+  https://github.com/zelon88/Robot_Motion
+  Version v4.5, November 1st, 2022
+  Licensed Under GNU GPLv3
+
+APPLICATION DESCRIPTION
+  An application to control Raspberry Pi Robots!
+  Turns a Raspberry Pi computer into a dual motor Electronic Speed Control (ESC)!
+
+ADDITIONAL INFORMATION
+  This file contains a list of all the errors produced by the Robot_Motion application to assist users with troubleshooting.
+
+<3 Open-Source
+----------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+
+
+~~START OF EXAMPLE~~
+----------------------------------------------------------------------------------------------------------------------------------------------------------------
+ERROR MESSAGE
+  The exact error response produced by the application. 
+  <ADDITIONAL_DATA> will be replaced with the result of a system call or standard output from a called dependency.
+
+FILE
+  The file path pointing to the file which contains this error message. 
+
+FATAL
+  Whether or not the occurance of this error will halt execution of the application.
+  Will either be YES or NO.
+
+ERROR DESCRIPTION
+  A brief and concise description of the error message as well as possible causes & solutions.
+----------------------------------------------------------------------------------------------------------------------------------------------------------------
+~~END OF EXAMPLE~~
+
+
+
+----------------------------------------------------------------------------------------------------------------------------------------------------------------
+ERROR MESSAGE
+  Error 1: Captured Exception, <ADDITIONAL_DATA>
+
+FILE
+  /Robot_Motion.py
+
+FATAL
+  NO
+
+ERROR DESCRIPTION
+  Robot Motion could not load the "RPi" Python module.
+  <ADDITIONAL_INFORMATION> contains the Python exception that was captured.
+----------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+----------------------------------------------------------------------------------------------------------------------------------------------------------------
+ERROR MESSAGE
+  Error 2: Captured Exception, <ADDITIONAL_DATA>
+
+FILE
+  /Robot_Motion.py
+
+FATAL
+  NO
+
+ERROR DESCRIPTION
+  Robot Motion could not load the "time" Python module.
+  <ADDITIONAL_INFORMATION> contains the Python exception that was captured.
+----------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+----------------------------------------------------------------------------------------------------------------------------------------------------------------
+ERROR MESSAGE
+  Error 3: Captured Exception, <ADDITIONAL_DATA>
+
+FILE
+  /Robot_Motion.py
+
+FATAL
+  NO
+
+ERROR DESCRIPTION
+  Robot Motion could not load the "keyboard" Python module.
+  <ADDITIONAL_INFORMATION> contains the Python exception that was captured.
+----------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+----------------------------------------------------------------------------------------------------------------------------------------------------------------
+ERROR MESSAGE
+  Error 4: Could not Import Required Libraries. 
+  Please install the following libraries: <ADDITIONAL_DATA>
+
+FILE
+  /Robot_Motion.py
+
+FATAL
+  YES
+
+ERROR DESCRIPTION
+  Robot Motion could not load the one of the Python module required to function.
+  <ADDITIONAL_INFORMATION> contains a list of missing modules that need to be installed.
+----------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+----------------------------------------------------------------------------------------------------------------------------------------------------------------
+ERROR MESSAGE
+  Error 5: Execution Falling Behind. 
+
+FILE
+  /Robot_Motion.py
+
+FATAL
+  NO
+
+ERROR DESCRIPTION
+  This error is informational.
+  The Raspberry Pi cannot achieve accurate or precise frequency modulation with the current configuration settings.
+  The BeepDuration configuration variable is set too high.
+  The DefaultSensitivity configuration variable is set too high.
+  The DefaultDwellDuration configuration variable is set too high.
+  The ExecutionDuration calculated from inputs is set too low.
+  The DwellDuration calculated from inputs is set too low.
+  The Raspberry Pi does not have enough available compute resources.
+  The Raspberry Pi is overloaded by other tasks, programs, or workloads.
+  To improve performance try reducing the  BeepDuration configuration variable.
+  To improve performance try disabling the Debug & DebugStops configuration variables.
+  To improve performance try increasing the DetectSpeedChangeInterval & DetectSensitivityChangeInterval configuration variables.
+  To improve performance, disable the TrackLoops configuration variable.
+----------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+----------------------------------------------------------------------------------------------------------------------------------------------------------------
+ERROR MESSAGE
+  Error 6: Captured Exception, <ADDITIONAL_DATA>
+
+FILE
+  /Robot_Motion.py
+
+FATAL
+  FALSE
+
+ERROR DESCRIPTION
+  Robot Motion could not load the Robot_Motion_Config.py Python module which contains the configuration variables set by the user.
+  <ADDITIONAL_INFORMATION> contains the Python exception that was captured.
+----------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+----------------------------------------------------------------------------------------------------------------------------------------------------------------
+ERROR MESSAGE
+  Error 7: Could not Import Configuration File.
+
+FILE
+  /Robot_Motion.py
+
+FATAL
+  FALSE
+
+ERROR DESCRIPTION
+  Robot Motion could not load the Robot_Motion_Config.py Python module which contains the configuration variables set by the user.
+  Somewhat redundant, but this error is meant to be more direct & specific since it will probably be fairly common in the wild.
+----------------------------------------------------------------------------------------------------------------------------------------------------------------
