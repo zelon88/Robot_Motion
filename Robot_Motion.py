@@ -1,10 +1,11 @@
+#--------------------
 # APPLICATION NAME
 #   Robot_Motion.py
 
 # APPLICATION INFORMATION
 #   Written by Daniel Grimes & Justin Grimes.
 #   https://github.com/zelon88/Robot_Motion
-#   Version v4.4, October 31st, 2022
+#   Version v4.5, November 1st, 2022
 #   Licensed Under GNU GPLv3
 
 # APPLICATION DESCRIPTION
@@ -69,6 +70,8 @@
 #   Set Speed To Level 9:                   9
 #   Set Speed To Level 10:                  0
 #   Close Application:                      Esc
+
+# <3 Open-Source
 #--------------------
 
 #--------------------
@@ -539,34 +542,34 @@ def DetectKeyboardSpeedChange(LastMessage, SpeedCounter, DetectSpeedInterval, De
     # Detect when a number key is pressed & set the speed level to that number.
     if KB.is_pressed(SpeedOneKey) and Pressed == False:
       # Increment the command counter & specify the request type.
-      SpeedCounter, Pressed, CommandsIssued, RequestReceived, RequestedSpeed = DetectSpeedSkipInterval, True, CommandsIssued + 1, OpText+str(1), 1
+      SpeedCounter, Pressed, CommandsIssued, RequestReceived, CommandSent, RequestedSpeed = DetectSpeedSkipInterval, True, CommandsIssued + 1, 'Update Speed', OpText+str(1), 1
     if KB.is_pressed(SpeedTwoKey) and Pressed == False:
       # Increment the command counter & specify the request type.
-      SpeedCounter, Pressed, CommandsIssued, RequestReceived, RequestedSpeed = DetectSpeedSkipInterval, True, CommandsIssued + 1, OpText+str(2), 2
+      SpeedCounter, Pressed, CommandsIssued, RequestReceived, CommandSent, RequestedSpeed = DetectSpeedSkipInterval, True, CommandsIssued + 1, 'Update Speed', OpText+str(2), 2
     if KB.is_pressed(SpeedThreeKey) and Pressed == False:
       # Increment the command counter & specify the request type.
-      SpeedCounter, Pressed, CommandsIssued, RequestReceived, RequestedSpeed = DetectSpeedSkipInterval, True, CommandsIssued + 1, OpText+str(3), 3
+      SpeedCounter, Pressed, CommandsIssued, RequestReceived, CommandSent, RequestedSpeed = DetectSpeedSkipInterval, True, CommandsIssued + 1, 'Update Speed', OpText+str(3), 3
     if KB.is_pressed(SpeedFourKey) and Pressed == False:
       # Increment the command counter & specify the request type.
-      SpeedCounter, Pressed, CommandsIssued, RequestReceived, RequestedSpeed = DetectSpeedSkipInterval, True, CommandsIssued + 1, OpText+str(4), 4
+      SpeedCounter, Pressed, CommandsIssued, RequestReceived, CommandSent, RequestedSpeed = DetectSpeedSkipInterval, True, CommandsIssued + 1, 'Update Speed', OpText+str(4), 4
     if KB.is_pressed(SpeedFiveKey) and Pressed == False:
       # Increment the command counter & specify the request type.
-      SpeedCounter, Pressed, CommandsIssued, RequestReceived, RequestedSpeed = DetectSpeedSkipInterval, True, CommandsIssued + 1, OpText+str(5), 5
+      SpeedCounter, Pressed, CommandsIssued, RequestReceived, CommandSent, RequestedSpeed = DetectSpeedSkipInterval, True, CommandsIssued + 1, 'Update Speed', OpText+str(5), 5
     if KB.is_pressed(SpeedSixKey) and Pressed == False:
       # Increment the command counter & specify the request type.
-      SpeedCounter, Pressed, CommandsIssued, RequestReceived, RequestedSpeed = DetectSpeedSkipInterval, True, CommandsIssued + 1, OpText+str(6), 6
+      SpeedCounter, Pressed, CommandsIssued, RequestReceived, CommandSent, RequestedSpeed = DetectSpeedSkipInterval, True, CommandsIssued + 1, 'Update Speed', OpText+str(6), 6
     if KB.is_pressed(SpeedSevenKey) and Pressed == False:
       # Increment the command counter & specify the request type.
-      SpeedCounter, Pressed, CommandsIssued, RequestReceived, RequestedSpeed = DetectSpeedSkipInterval, True, CommandsIssued + 1, OpText+str(7), 7
+      SpeedCounter, Pressed, CommandsIssued, RequestReceived, CommandSent, RequestedSpeed = DetectSpeedSkipInterval, True, CommandsIssued + 1, 'Update Speed', OpText+str(7), 7
     if KB.is_pressed(SpeedEightKey) and Pressed == False:
       # Increment the command counter & specify the request type.
-      SpeedCounter, Pressed, CommandsIssued, RequestReceived, RequestedSpeed = DetectSpeedSkipInterval, True, CommandsIssued + 1, OpText+str(8), 8
+      SpeedCounter, Pressed, CommandsIssued, RequestReceived, CommandSent, RequestedSpeed = DetectSpeedSkipInterval, True, CommandsIssued + 1, 'Update Speed', OpText+str(8), 8
     if KB.is_pressed(SpeedNineKey) and Pressed == False:
       # Increment the command counter & specify the request type.
-      SpeedCounter, Pressed, CommandsIssued, RequestReceived, RequestedSpeed = DetectSpeedSkipInterval, True, CommandsIssued + 1, OpText+str(9), 9
+      SpeedCounter, Pressed, CommandsIssued, RequestReceived, CommandSent, RequestedSpeed = DetectSpeedSkipInterval, True, CommandsIssued + 1, 'Update Speed', OpText+str(9), 9
     if KB.is_pressed(SpeedTenKey) and Pressed == False:
       # Increment the command counter & specify the request type.
-      SpeedCounter, Pressed, CommandsIssued, RequestReceived, RequestedSpeed = DetectSpeedSkipInterval, True, CommandsIssued + 1, OpText+str(0), 0
+      SpeedCounter, Pressed, CommandsIssued, RequestReceived, CommandSent, RequestedSpeed = DetectSpeedSkipInterval, True, CommandsIssued + 1, 'Update Speed', OpText+str(0), 0
     # Detect if a request was received.
     if Pressed == True:
       # Determine if the requested speed is within boundaries.
@@ -634,7 +637,7 @@ def DetectForwardRequest(LastMessage, CurrentSpeed, OriginalSpeed, KB, Boosted, 
     # Detect when conflicting movement keys are pressed & ignore input for this channel.
     if not KB.is_pressed(BackwardKey) and not KB.is_pressed(TurnRightKey) and not KB.is_pressed(RightLimpRightKey):
       # Reinitialize variables for request & movement flags if a request is detected.
-      RequestReceived, CommandSent, RightMoving, LeftMoving = 'Forward', 'Motor One Forward, Motor Two Forward', CurrentSpeed, CurrentSpeed
+      RequestReceived, CommandSent, RightMoving, LeftMoving = 'Forward', 'Motor One Forward', CurrentSpeed, CurrentSpeed
       # Remove boost from completed turn operations.
       Boosted, ExecutionDuration, CurrentSpeed, OriginalSpeed = RemoveBoost(Boosted, ExecutionDuration, CurrentSpeed, OriginalSpeed, DefaultDwellDuration, DefaultSensitivity)
       # Activate motor.
@@ -643,6 +646,10 @@ def DetectForwardRequest(LastMessage, CurrentSpeed, OriginalSpeed, KB, Boosted, 
       CommandsIssued = CommandsIssued + 1
     # Detect when conflicting movement keys are pressed & ignore input for this channel.
     if not KB.is_pressed(BackwardKey) and not KB.is_pressed(TurnLeftKey) and not KB.is_pressed(LeftLimpLeftKey):
+      # Reinitialize variables for request & movement flags if a request is detected.
+      RequestReceived, CommandSent, RightMoving, LeftMoving = 'Forward', str(CommandSent)+', Motor Two Forward', CurrentSpeed, CurrentSpeed
+      # Remove boost from completed turn operations.
+      Boosted, ExecutionDuration, CurrentSpeed, OriginalSpeed = RemoveBoost(Boosted, ExecutionDuration, CurrentSpeed, OriginalSpeed, DefaultDwellDuration, DefaultSensitivity)
       # Activate motor.
       MotorTwoForward(MotorRelayTwoPositiveGPIO)
       # Increment the command counter.
@@ -665,9 +672,9 @@ def DetectReverseRequest(LastMessage, CurrentSpeed, OriginalSpeed, KB, Boosted, 
   # Detect when a primary movement key is pressed.
   if KB.is_pressed(BackwardKey):
     # Detect when conflicting movement keys are pressed & ignore input for this channel.
-    if not KB.is_pressed(ForwardKey) and not KB.is_pressed(TurnLeftKey) and not KB.is_pressed(RightLimpLeftKey):
+    if not KB.is_pressed(ForwardKey) and not KB.is_pressed(TurnLeftKey) and not KB.is_pressed(RightLimpLeftKey) and not KB.is_pressed(LeftLimpLeftKey):
       # Reinitialize variables for request & movement flags if a request is detected.
-      RequestReceived, CommandSent, RightMoving, LeftMoving = 'Backward', 'Motor One Reverse, Motor Two Reverse', CurrentSpeed, CurrentSpeed
+      RequestReceived, CommandSent, RightMoving, LeftMoving = 'Backward', 'Motor One Reverse', CurrentSpeed, CurrentSpeed
       # Remove boost from completed turn operations.
       Boosted, ExecutionDuration, CurrentSpeed, OriginalSpeed = RemoveBoost(Boosted, ExecutionDuration, CurrentSpeed, OriginalSpeed, DefaultDwellDuration, DefaultSensitivity)
       # Activate motor.
@@ -675,7 +682,11 @@ def DetectReverseRequest(LastMessage, CurrentSpeed, OriginalSpeed, KB, Boosted, 
       # Increment the command counter.
       CommandsIssued = CommandsIssued + 1
     # Detect when conflicting movement keys are pressed & ignore input for this channel.
-    if not KB.is_pressed(ForwardKey) and not KB.is_pressed(TurnRightKey) and not KB.is_pressed(LeftLimpRightKey):
+    if not KB.is_pressed(ForwardKey) and not KB.is_pressed(TurnRightKey) and not KB.is_pressed(RightLimpRightKey) and not KB.is_pressed(LeftLimpRightKey):
+      # Reinitialize variables for request & movement flags if a request is detected.
+      RequestReceived, CommandSent, RightMoving, LeftMoving = 'Backward', str(CommandSent)+', Motor Two Reverse', CurrentSpeed, CurrentSpeed
+      # Remove boost from completed turn operations.
+      Boosted, ExecutionDuration, CurrentSpeed, OriginalSpeed = RemoveBoost(Boosted, ExecutionDuration, CurrentSpeed, OriginalSpeed, DefaultDwellDuration, DefaultSensitivity)
       # Activate motor.
       MotorTwoReverse(MotorRelayTwoNegativeGPIO)
       # Increment the command counter.
@@ -1025,7 +1036,7 @@ def PauseExecution(LastMessage, StartTime, ExecutionDuration, DefaultDwellDurati
     if CurrentSpeed != 0:
       # Output an error when a lag in execution is detected only if Debug is set by configuration.
       if Debug == True:
-        LastMessage = PrintError(6, 'Execution Falling Behind.', False)
+        LastMessage = PrintError(5, 'Execution Falling Behind.', False)
   else:
     Time.sleep(DwellDuration)
   return LastMessage, DwellDuration
@@ -1040,9 +1051,9 @@ try:
 # Handle the exception that is raised if the configuration file is missing.
 except ModuleNotFoundError as ConfigError:
   # Display the raw exception if Debug is enabled by configuration.
-  LastMessage = PrintError(7, 'Captured Exception, '+str(ConfigError)+'.', False)
+  LastMessage = PrintError(6, 'Captured Exception, '+str(ConfigError)+'.', False)
   # Announce a fatal error if the configuration file cannot be loaded.
-  LastMessage = PrintError(8, 'Could not Import Configuration File.', True)
+  LastMessage = PrintError(7, 'Could not Import Configuration File.', True)
 
 # Print the start text.
 PrintText(StartText)

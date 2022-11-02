@@ -134,7 +134,7 @@ GoodbyeText = str('Thanks for playing, Have a nice day!')
 # This configuration entry has a significant impact on performance.
 # Once you have your robot fully configured set this to False.
 # Default is True.
-Debug = bool(True)
+Debug = bool(False)
 #--------------------
 
 #--------------------
@@ -160,7 +160,7 @@ EnableSpeakerBeep = bool(True)
 # How long should indicator beeps last, in seconds.
 # This configuration entry has a significant impact on performance.
 # Default is 1 / 100.
-BeepDuration = float(1 / 100)
+BeepDuration = float(1 / 1000)
 #--------------------
 
 #--------------------
@@ -187,7 +187,7 @@ EnableLoopTracking = bool(True)
 # Set the number of iterations of the main loop to announce.
 # Only takes effect if EnableLoopTracking is set to True. 
 # Default is 100000. 
-LoopAnnouncementInterval = int(100000)
+LoopAnnouncementInterval = int(1000)
 #--------------------
 
 #--------------------
@@ -208,7 +208,7 @@ MaxLoopCount = int(0)
 # Must be longer than the Execution Duration.
 # Default is 1 / 30.
 # Multiples of the default work well.
-DefaultDwellDuration = float(1 / 30)
+DefaultDwellDuration = float(1 / 60)
 #--------------------
 
 #--------------------
@@ -218,7 +218,7 @@ DefaultDwellDuration = float(1 / 30)
 # This value is variable. The default value is only used during initialization.
 # Must be shorter than the Dwell Duration.
 # Default is DefaultDwellDuration / 10.
-DefaultExecutionDuration = float(DefaultDwellDuration / 10)
+DefaultExecutionDuration = float(DefaultDwellDuration / 20)
 #--------------------
 
 #--------------------
