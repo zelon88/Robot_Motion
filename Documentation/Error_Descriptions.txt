@@ -135,7 +135,7 @@ FILE
   /Robot_Motion.py
 
 FATAL
-  FALSE
+  NO
 
 ERROR DESCRIPTION
   Robot Motion could not load the Robot_Motion_Config.py Python module which contains the configuration variables set by the user.
@@ -150,7 +150,7 @@ FILE
   /Robot_Motion.py
 
 FATAL
-  FALSE
+  YES
 
 ERROR DESCRIPTION
   Robot Motion could not load the Robot_Motion_Config.py Python module which contains the configuration variables set by the user.
