@@ -5,7 +5,7 @@
 # APPLICATION INFORMATION
 #   Written by Daniel Grimes & Justin Grimes.
 #   https://github.com/zelon88/Robot_Motion
-#   Version v4.5, November 1st, 2022
+#   Version v4.6, January 1st, 2023
 #   Licensed Under GNU GPLv3
 
 # APPLICATION DESCRIPTION
@@ -83,7 +83,7 @@ ApplicationName = str('Robot Motion')
 #--------------------
 # Version Information.
 # Set a string containing the version of this application to display to the user.
-VersionInfo = str('Version v4.5, November 1st, 2022')
+VersionInfo = str('Version v4.6, January 1st, 2023')
 #--------------------
 
 #--------------------

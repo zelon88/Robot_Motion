@@ -5,7 +5,7 @@
 # APPLICATION INFORMATION
 #   Written by Daniel Grimes & Justin Grimes.
 #   https://github.com/zelon88/Robot_Motion
-#   Version v4.5, November 1st, 2022
+#   Version v4.6, January 1st, 2023
 #   Licensed Under GNU GPLv3
 
 # APPLICATION DESCRIPTION
@@ -442,13 +442,13 @@ def AllMotorsReverse(MotorRelayOneNegativeGPIO, MotorRelayTwoNegativeGPIO):
 #--------------------
 
 #--------------------
-# Sensitivity Change Request.
+# Keyboard Sensitivity Change Request.
 # Detect when a sensitivity update is required.
 def DetectKeyboardSensitivityChange(LastMessage, MinimumSensitivity, MaximumSensitivity, SensitivityCounter, DetectSensitivityInterval, DetectSensitivitySkipInterval, CurrentSensitivity, DefaultSensitivity, \
   SensitivityChangeAmount, KB, IncreaseSensitivityKey, DecreaseSensitivityKey, ExecutionDuration, DwellDuration, BeepDuration, NumberOfBuzzes, EnableSpeakerBeep, SpeakerGPIO, Debug):
   # Initialize variables for sanity checks, request flags, & movement flags.
   Pressed, RequestReceived, CommandSent, CommandsIssued, OpText = False, False, False, 0, False
-  # Detect if a sensitivity check shoult be performed during the current cycle.
+  # Detect if a sensitivity check should be performed during the current cycle.
   if SensitivityCounter == 0:
     SensitivityCounter = DetectSensitivityInterval
     # Detect when the increase sensitivity key is pressed.
@@ -499,13 +499,13 @@ def DetectKeyboardSensitivityChange(LastMessage, MinimumSensitivity, MaximumSens
 #--------------------
 
 #--------------------
-# Speed Change Request.
+# Keyboard Speed Change Request.
 # Detect when a speed update is required.
 def DetectKeyboardSpeedChange(LastMessage, SpeedCounter, DetectSpeedInterval, DetectSpeedSkipInterval, ExecutionDuration, DwellDuration, Sensitivity, CurrentSpeed, KB, IncreaseSpeedKey, DecreaseSpeedKey, \
   SpeedOneKey, SpeedTwoKey, SpeedThreeKey, SpeedFourKey, SpeedFiveKey, SpeedSixKey, SpeedSevenKey, SpeedEightKey, SpeedNineKey, SpeedTenKey, BeepDuration, NumberOfBuzzes, EnableSpeakerBeep, SpeakerGPIO, Debug):
   # Initialize variables for sanity checks, request flags, & movement flags.
   Pressed, RequestReceived, CommandSent, CommandsIssued, OpText = False, False, False,  0, 'Update Speed to Level '
-  # Detect if a speed check shoult be performed during the current cycle.
+  # Detect if a speed check should be performed during the current cycle.
   if SpeedCounter == 0:
     SpeedCounter = DetectSpeedInterval
     # Detect when the increase speed key is pressed.
